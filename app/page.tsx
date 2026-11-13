@@ -677,20 +677,7 @@ function Preview({ children }: { children: React.ReactNode }) {
 /* ---------- printable receipt ---------- */
 
 function Logo() {
-  return (
-    <svg viewBox="0 0 64 64" width="44" height="44" aria-hidden>
-      <circle cx="32" cy="32" r="30" fill="#dbe7f5" stroke="#9db6d6" strokeWidth="2" />
-      <path d="M16 31 L32 17 L48 31" fill="none" stroke="#5b7fae" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M20 29 V46 H44 V29" fill="none" stroke="#5b7fae" strokeWidth="3" strokeLinejoin="round" />
-      <path
-        d="M32 42 C24 36 25 30 29 30 C31 30 32 32 32 32 C32 32 33 30 35 30 C39 30 40 36 32 42 Z"
-        fill="none"
-        stroke="#5b7fae"
-        strokeWidth="2.4"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <img src="/logo.png" alt="บ้านพักใจ" className="logo-img" />;
 }
 
 function ReceiptDoc({
@@ -707,7 +694,7 @@ function ReceiptDoc({
     <div className="paper">
       <div className="doc-head">
         <div>
-          {r.logo ? <img src={r.logo} alt="" className="logo-img" /> : <Logo />}
+          {r.logo ? <img src={r.logo} alt="โลโก้" className="logo-img" /> : <Logo />}
           <div className="co-th">{c.nameTh}</div>
           <div className="co-en">{c.nameEn}</div>
         </div>

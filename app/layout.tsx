@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Prompt } from "next/font/google";
+import { Kanit } from "next/font/google";
 import "./globals.css";
 
-const prompt = Prompt({
+const kanit = Kanit({
   subsets: ["thai", "latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
-      <body className={prompt.className}>{children}</body>
+      <body className={kanit.className}>{children}</body>
     </html>
   );
 }
