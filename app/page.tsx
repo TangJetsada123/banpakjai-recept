@@ -45,10 +45,12 @@ type Receipt = {
   receiverTitle: string;
   logo: string; // data URL
   signature: string; // URL / data URL, "none" = ไม่แสดงลายเซ็น
+  stamp: string; // ตราประทับบริษัท, "none" = ไม่แสดง
 };
 
 const STORAGE_KEY = "banpakjai-receipt-v1";
 const DEFAULT_SIGNATURE = "/signature.png"; // ลายเซ็น ทิพวรรรณ อรุณประภารัตน์
+const DEFAULT_STAMP = "/stamp.png"; // ตราประทับบ้านพักใจ
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 const todayISO = () => {
@@ -92,6 +94,7 @@ const defaultReceipt = (): Receipt => ({
   receiverTitle: "กรรมการผู้จัดการบ้านพักใจ",
   logo: "",
   signature: DEFAULT_SIGNATURE,
+  stamp: DEFAULT_STAMP,
 });
 
 const nextReceiptNo = (no: string) =>
@@ -112,6 +115,7 @@ export default function Page() {
       if (raw) {
         const saved = JSON.parse(raw);
         if (!saved.signature) delete saved.signature; // ข้อมูลเก่ายังไม่มีลายเซ็น -> ใช้ค่าเริ่มต้น
+        if (!saved.stamp) delete saved.stamp;
         setR({ ...defaultReceipt(), ...saved });
       }
     } catch {}
@@ -208,7 +212,7 @@ export default function Page() {
     });
   };
 
-  const readImage = (file: File | undefined, key: "logo" | "signature") => {
+  const readImage = (file: File | undefined, key: "logo" | "signature" | "stamp") => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => set(key, String(reader.result));
@@ -233,6 +237,7 @@ export default function Page() {
       receiverTitle: p.receiverTitle,
       logo: p.logo,
       signature: p.signature,
+      stamp: p.stamp,
       receiptNo: nextReceiptNo(p.receiptNo),
     }));
   };
@@ -541,6 +546,10 @@ export default function Page() {
               โลโก้บริษัท
               <input type="file" accept="image/*" onChange={(e) => readImage(e.target.files?.[0], "logo")} />
             </label>
+            <label>
+              ตราประทับบริษัท
+              <input type="file" accept="image/*" onChange={(e) => readImage(e.target.files?.[0], "stamp")} />
+            </label>
           </div>
           <div className="row-btns">
             {r.signature !== "none" && (
@@ -551,6 +560,16 @@ export default function Page() {
             {r.signature !== DEFAULT_SIGNATURE && (
               <button className="btn" onClick={() => set("signature", DEFAULT_SIGNATURE)}>
                 ใช้ลายเซ็นเริ่มต้น
+              </button>
+            )}
+            {r.stamp !== "none" && (
+              <button className="btn" onClick={() => set("stamp", "none")}>
+                ไม่แสดงตราประทับ
+              </button>
+            )}
+            {r.stamp !== DEFAULT_STAMP && (
+              <button className="btn" onClick={() => set("stamp", DEFAULT_STAMP)}>
+                ใช้ตราประทับเริ่มต้น
               </button>
             )}
             {r.logo && (
@@ -832,6 +851,8 @@ function ReceiptDoc({
         </div>
       </div>
 
+      <div className="sign-wrap">
+      {r.stamp && r.stamp !== "none" && <img className="stamp" src={r.stamp} alt="ตราประทับบริษัท" />}
       <table className="sign">
         <tbody>
           <tr>
@@ -849,6 +870,7 @@ function ReceiptDoc({
           </tr>
         </tbody>
       </table>
+      </div>
       <div className="foot">{c.nameTh}</div>
     </div>
   );

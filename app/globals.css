@@ -591,3 +591,25 @@ table {
     height: 10mm;
   }
 }
+
+/* company stamp, centred over the signature boxes */
+.sign-wrap {
+  position: relative;
+  margin-top: 14px;
+  break-inside: avoid;
+}
+.sign-wrap .sign {
+  margin-top: 0;
+}
+.stamp {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 27mm;
+  height: 27mm;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+}
